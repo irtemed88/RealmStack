@@ -2,14 +2,15 @@ import SwiftUI
 import RealmSwift
 
 
-struct ContentDetailsView: View {
+struct SwiftUIDetailsView: View {
     @ObservedRealmObject var route: Route
-
+    
     var body: some View {
 
         List {
             ForEach(Array(route.stops.enumerated()), id: \.element.self) { offset, item in
                 StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item))
+                    .transition(.opacity)
             }
             .onMove(perform: $route.stops.move)
             .onDelete(perform: $route.stops.remove)

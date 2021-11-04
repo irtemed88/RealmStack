@@ -7,26 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A081BEAC273324AD0002CA26 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081BEAB273324AD0002CA26 /* ContentView.swift */; };
+		A081BEAE273337030002CA26 /* UIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081BEAD273337030002CA26 /* UIKitViewController.swift */; };
+		A081BEB02733A3750002CA26 /* UIKitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081BEAF2733A3740002CA26 /* UIKitDetailsViewController.swift */; };
 		A087A77327318413000BB32A /* RealmStackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A77227318413000BB32A /* RealmStackApp.swift */; };
-		A087A77527318413000BB32A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A77427318413000BB32A /* ContentView.swift */; };
+		A087A77527318413000BB32A /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A77427318413000BB32A /* SwiftUIView.swift */; };
 		A087A77727318415000BB32A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A087A77627318415000BB32A /* Assets.xcassets */; };
 		A087A77A27318415000BB32A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A087A77927318415000BB32A /* Preview Assets.xcassets */; };
 		A087A78127318441000BB32A /* StopCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A78027318441000BB32A /* StopCellView.swift */; };
 		A087A78327318466000BB32A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A78227318466000BB32A /* Models.swift */; };
 		A087A78E27318710000BB32A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A087A78D27318710000BB32A /* Realm */; };
 		A087A79027318710000BB32A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A087A78F27318710000BB32A /* RealmSwift */; };
-		A087A79227318900000BB32A /* ContentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A79127318900000BB32A /* ContentDetailsView.swift */; };
+		A087A79227318900000BB32A /* SwiftUIDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A79127318900000BB32A /* SwiftUIDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A081BEAB273324AD0002CA26 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A081BEAD273337030002CA26 /* UIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewController.swift; sourceTree = "<group>"; };
+		A081BEAF2733A3740002CA26 /* UIKitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitDetailsViewController.swift; sourceTree = "<group>"; };
 		A087A76F27318413000BB32A /* RealmStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealmStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A087A77227318413000BB32A /* RealmStackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStackApp.swift; sourceTree = "<group>"; };
-		A087A77427318413000BB32A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A087A77427318413000BB32A /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		A087A77627318415000BB32A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A087A77927318415000BB32A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A087A78027318441000BB32A /* StopCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopCellView.swift; sourceTree = "<group>"; };
 		A087A78227318466000BB32A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		A087A79127318900000BB32A /* ContentDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentDetailsView.swift; sourceTree = "<group>"; };
+		A087A79127318900000BB32A /* SwiftUIDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +68,11 @@
 			isa = PBXGroup;
 			children = (
 				A087A77227318413000BB32A /* RealmStackApp.swift */,
-				A087A77427318413000BB32A /* ContentView.swift */,
-				A087A79127318900000BB32A /* ContentDetailsView.swift */,
+				A081BEAB273324AD0002CA26 /* ContentView.swift */,
+				A081BEAD273337030002CA26 /* UIKitViewController.swift */,
+				A081BEAF2733A3740002CA26 /* UIKitDetailsViewController.swift */,
+				A087A77427318413000BB32A /* SwiftUIView.swift */,
+				A087A79127318900000BB32A /* SwiftUIDetailsView.swift */,
 				A087A78027318441000BB32A /* StopCellView.swift */,
 				A087A78227318466000BB32A /* Models.swift */,
 				A087A77627318415000BB32A /* Assets.xcassets */,
@@ -157,9 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A087A79227318900000BB32A /* ContentDetailsView.swift in Sources */,
-				A087A77527318413000BB32A /* ContentView.swift in Sources */,
+				A081BEB02733A3750002CA26 /* UIKitDetailsViewController.swift in Sources */,
+				A087A79227318900000BB32A /* SwiftUIDetailsView.swift in Sources */,
+				A087A77527318413000BB32A /* SwiftUIView.swift in Sources */,
+				A081BEAC273324AD0002CA26 /* ContentView.swift in Sources */,
 				A087A77327318413000BB32A /* RealmStackApp.swift in Sources */,
+				A081BEAE273337030002CA26 /* UIKitViewController.swift in Sources */,
 				A087A78127318441000BB32A /* StopCellView.swift in Sources */,
 				A087A78327318466000BB32A /* Models.swift in Sources */,
 			);
