@@ -12,6 +12,11 @@ class Route: Object, ObjectKeyIdentifiable {
 }
 
 class Stop: Object {
+
     @Persisted var city: String
+
     @Persisted var street: String
+
+    /// Is this item in focus
+    @Persisted var isSelected: Bool
 }

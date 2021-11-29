@@ -11,6 +11,10 @@ struct StopCellView: View {
     var body: some View {
         HStack {
 
+            if viewModel.stop.isSelected {
+                Image(systemName: "star")
+            }
+            
             Text("\(viewModel.index).")
                 .frame(width: 24)
 
