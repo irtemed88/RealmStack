@@ -2,18 +2,32 @@ import SwiftUI
 import RealmSwift
 
 
+//class DetailsViewModel {
+//
+//    lazy var interactor = RouteInteractor(route: route)
+//
+//}
 struct SwiftUIDetailsView: View {
     @ObservedRealmObject var route: Route
-    
+    let interactor: RouteInteractor
+
+    init(route: Route) {
+        self.route = route
+        self.interactor = RouteInteractor(route: route)
+    }
+
     var body: some View {
 
         List {
-            ForEach(Array(route.stops.enumerated()), id: \.element.self) { offset, item in
-                StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item))
-                    .transition(.opacity)
+            ForEach(Array(route.stops.enumerated()), id: \.element.self._id) { offset, item in
+                Button {
+                    interactor.selectStop(item)
+                } label: {
+                    StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item, route: route))
+                }
             }
-            .onMove(perform: $route.stops.move)
-            .onDelete(perform: $route.stops.remove)
+            .onMove(perform: interactor.moveStops)
+            .onDelete(perform: interactor.deleteStops)
         }
         .toolbar {
             ToolbarItem {

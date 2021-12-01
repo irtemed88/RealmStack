@@ -56,10 +56,6 @@ class UIKitViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
                 } completion: { _ in }
 
-                // Query results have changed.
-                print("Deleted indices: ", deletions)
-                print("Inserted indices: ", insertions)
-                print("Modified modifications: ", modifications)
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
