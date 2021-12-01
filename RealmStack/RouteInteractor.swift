@@ -137,18 +137,61 @@ struct RouteInteractor {
 
 
     func shuffle() {
-        let id = route._id
+//        let id = route._id
+//        queue.async {
+//            do {
+//                let realm = try Realm()
+//                let route = realm.object(ofType: Route.self, forPrimaryKey: id)
+//                try realm.write {
+//                    route?.stops.shuffle()
+//                }
+//            } catch {
+//                print("Error: \(error)")
+//            }
+//
+//        }
+
+        // Simulate Ordered Identifier Handling (Similar to that provided by Optimization)
+        let after = route.stops.map(\._id).shuffled()
+        applyOrder(orderedIdentifiers: after)
+    }
+
+    /// Applies Reordering by provided identifiers
+    /// If identifiers don't match, operations will be dropped
+    func applyOrder(orderedIdentifiers: [String]) {
+        let routeID = route._id
         queue.async {
             do {
                 let realm = try Realm()
-                let route = realm.object(ofType: Route.self, forPrimaryKey: id)
+
+                guard let route = realm.object(ofType: Route.self, forPrimaryKey: routeID) else {
+                    return
+                }
+
+                // Ensure Identifiers match existing identifiers of stops
+                let existingStopIdentifiers = Set(route.stops.map(\._id))
+                guard Set(orderedIdentifiers) == existingStopIdentifiers else {
+                    return
+                }
+
+                // Apply Order to stops
+                // Given identifier order, Iterate through ids to construct expected order
+                let lookup = Dictionary(grouping: route.stops) { $0._id }
+                let ordered: [Stop] = orderedIdentifiers.compactMap { identifier in
+                    lookup[identifier]?.first
+                }
+
                 try realm.write {
-                    route?.stops.shuffle()
+                    // Remove
+                    route.stops.removeAll()
+                    // Then Replace
+                    route.stops.append(objectsIn: ordered)
                 }
             } catch {
                 print("Error: \(error)")
             }
 
         }
+
     }
 }
