@@ -7,6 +7,7 @@ import Combine
 class UIKitDetailsViewController: UIViewController {
 
     struct Item: Hashable {
+        let index: Int
         let stop: Stop
         let selectedStopID: String
     }
@@ -93,7 +94,7 @@ class UIKitDetailsViewController: UIViewController {
     private func createDataSource(withCollectionView collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Item> {
         UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! StopCollectionCell
-            cell.update(withStop: item.stop, selectedStopID: item.selectedStopID)
+            cell.update(withStop: item.stop, index: item.index, selectedStopID: item.selectedStopID)
             return cell
         }
     }
@@ -101,7 +102,9 @@ class UIKitDetailsViewController: UIViewController {
     private func createStopsSnapshot(withStops stops: List<Stop>, selectedStopID: String) -> NSDiffableDataSourceSnapshot<Int, Item> {
         var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
         snapshot.appendSections([0])
-        let items = Array(stops.map { Item(stop: $0, selectedStopID: self.route.selectedStopID) })
+        let items = Array(stops).enumerated().map { index, stop in
+            Item(index: index, stop: stop, selectedStopID: self.route.selectedStopID)
+        }
         snapshot.appendItems(items, toSection: 0)
         return snapshot
     }
@@ -147,9 +150,9 @@ class StopCollectionCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(withStop stop: Stop, selectedStopID: String) {
+    func update(withStop stop: Stop, index: Int, selectedStopID: String) {
         var content = defaultContentConfiguration()
-        let text = "\(stop.street)\n\(stop.city)"
+        let text = "\(index).   \(stop.street)\n\(stop.city)"
         content.text = text
         content.textProperties.numberOfLines = 1
 
