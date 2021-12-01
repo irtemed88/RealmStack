@@ -12,6 +12,14 @@ class Route: Object, ObjectKeyIdentifiable {
 }
 
 class Stop: Object {
+
+    // The unique ID of the Route. `primaryKey: true` declares the
+    // _id member as the primary key to the realm.
+    @Persisted(primaryKey: true) var _id: String = UUID().uuidString
+
     @Persisted var city: String
+
     @Persisted var street: String
 }
+
+

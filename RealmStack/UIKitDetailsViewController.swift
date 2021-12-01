@@ -8,6 +8,8 @@ class UIKitDetailsViewController: UIViewController {
     let route: Route
     var stopsObserver: Any?
 
+    lazy var interactor = RouteInteractor(route: route)
+
     private lazy var layout: UICollectionViewCompositionalLayout = {
         var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
@@ -63,10 +65,8 @@ class UIKitDetailsViewController: UIViewController {
             switch change {
             case .initial(let stops):
                 self.dataSource.apply(self.createStopsSnapshot(withStops: stops))
-
             case .update(let stops, _, _, _):
                 self.dataSource.apply(self.createStopsSnapshot(withStops: stops))
-
             case .error(let error):
                 print("\(error)")
             }
@@ -93,25 +93,15 @@ class UIKitDetailsViewController: UIViewController {
     // MARK: - Realm
 
     @objc private func addStop() {
-        try! realm.write {
-            // Construct Object
-            let stop = Stop()
-            stop.street = UUID().uuidString
-            stop.city = UUID().uuidString
-            route.stops.append(stop)
-        }
+        interactor.addStop()
     }
 
     @objc private func deleteStop(_ stop: Stop) {
-        try! realm.write {
-            realm.delete(stop)
-        }
+        interactor.deleteStop(stop)
     }
 
     @objc private func shuffleStops() {
-        try! realm.write({
-            route.stops.shuffle()
-        })
+        interactor.shuffle()
     }
 }
 
