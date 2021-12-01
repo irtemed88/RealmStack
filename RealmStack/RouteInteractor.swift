@@ -68,11 +68,15 @@ struct RouteInteractor {
                       return
                   }
 
-            // TODO: - Perform any residual changes, eg updating selected stop
-
             do {
                 try realm.write({
                     if let stopIndex = route.stops.index(of: stop) {
+
+                        // Update Selected Stop is being deleted, adjust selection to adjacent neighbor
+                        if route.selectedStopID == stop._id {
+                            let stops = Array(route.stops)
+                            route.selectedStopID = stops[safeIndex: stopIndex + 1]?._id ?? stops[safeIndex: stopIndex - 1]?._id ?? ""
+                        }
                         route.stops.remove(at: stopIndex)
                     }
                 })
@@ -96,10 +100,17 @@ struct RouteInteractor {
             let stops = stopIDsToDelete.compactMap { realm.object(ofType: Stop.self, forPrimaryKey: $0) }
             let indexSetToRemove = IndexSet(stops.compactMap { route.stops.index(of: $0) })
 
-            // TODO: - Perform any residual changes, eg updating selected stop
-
             do {
                 try realm.write {
+
+                    // If Selected Stop is being deleted, adjust selection to adjacent neighbor
+                    if stopIDsToDelete.contains(route.selectedStopID),
+                       let firstIndex = route.stops.firstIndex(where: { $0._id == route.selectedStopID }){
+                        let stops = Array(route.stops)
+                        let newID = stops[safeIndex: firstIndex + 1]?._id ?? stops[safeIndex: firstIndex - 1]?._id ?? ""
+                        route.selectedStopID = newID
+                    }
+
                     route.stops.remove(atOffsets: indexSetToRemove)
                 }
             } catch {

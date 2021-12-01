@@ -98,7 +98,7 @@ class UIKitDetailsViewController: UIViewController {
         }
     }
 
-    private func createStopsSnapshot(withStops stops: List<Stop>, selectedStopID: String) -> NSDiffableDataSourceSnapshot<Int, Item> { [unowned self] in
+    private func createStopsSnapshot(withStops stops: List<Stop>, selectedStopID: String) -> NSDiffableDataSourceSnapshot<Int, Item> {
         var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
         snapshot.appendSections([0])
         let items = Array(stops.map { Item(stop: $0, selectedStopID: self.route.selectedStopID) })
