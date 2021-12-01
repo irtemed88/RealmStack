@@ -1,12 +1,20 @@
 import Foundation
 import RealmSwift
 import UIKit
+import Combine
 
 
 class UIKitDetailsViewController: UIViewController {
+
+    struct Item: Hashable {
+        let stop: Stop
+        let selectedStopID: String
+    }
+
     let realm = try! Realm()
     let route: Route
     var stopsObserver: Any?
+    var selectionObserver: Any?
 
     lazy var interactor = RouteInteractor(route: route)
 
@@ -28,10 +36,11 @@ class UIKitDetailsViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(StopCollectionCell.self, forCellWithReuseIdentifier: "cell")
+        cv.delegate = self
         return cv
     }()
 
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Int, Stop> = {
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Int, Item> = {
         createDataSource(withCollectionView: collectionView)
     }()
 
@@ -64,29 +73,36 @@ class UIKitDetailsViewController: UIViewController {
 
             switch change {
             case .initial(let stops):
-                self.dataSource.apply(self.createStopsSnapshot(withStops: stops))
+                self.dataSource.apply(self.createStopsSnapshot(withStops: stops, selectedStopID: self.route.selectedStopID))
             case .update(let stops, _, _, _):
-                self.dataSource.apply(self.createStopsSnapshot(withStops: stops))
+                self.dataSource.apply(self.createStopsSnapshot(withStops: stops, selectedStopID: self.route.selectedStopID))
             case .error(let error):
                 print("\(error)")
             }
+        }
+
+        selectionObserver = route.observe(\.selectedStopID) { [weak self] route, change in
+            guard let self = self else { return }
+            let snapshot = self.createStopsSnapshot(withStops: route.stops, selectedStopID: self.route.selectedStopID)
+            self.dataSource.apply(snapshot)
         }
     }
 
     // MARK: - Collection View
 
-    private func createDataSource(withCollectionView collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Stop> {
-        UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+    private func createDataSource(withCollectionView collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Item> {
+        UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! StopCollectionCell
-            cell.update(withStop: itemIdentifier)
+            cell.update(withStop: item.stop, selectedStopID: item.selectedStopID)
             return cell
         }
     }
 
-    private func createStopsSnapshot(withStops stops: List<Stop>) -> NSDiffableDataSourceSnapshot<Int, Stop> {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Stop>()
+    private func createStopsSnapshot(withStops stops: List<Stop>, selectedStopID: String) -> NSDiffableDataSourceSnapshot<Int, Item> { [unowned self] in
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Array(stops), toSection: 0)
+        let items = Array(stops.map { Item(stop: $0, selectedStopID: self.route.selectedStopID) })
+        snapshot.appendItems(items, toSection: 0)
         return snapshot
     }
 
@@ -102,6 +118,14 @@ class UIKitDetailsViewController: UIViewController {
 
     @objc private func shuffleStops() {
         interactor.shuffle()
+    }
+}
+
+extension UIKitDetailsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let stop = route.stops[indexPath.row]
+        interactor.selectStop(stop)
     }
 }
 
@@ -123,11 +147,15 @@ class StopCollectionCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(withStop stop: Stop) {
+    func update(withStop stop: Stop, selectedStopID: String) {
         var content = defaultContentConfiguration()
         let text = "\(stop.street)\n\(stop.city)"
         content.text = text
         content.textProperties.numberOfLines = 1
+
+        if selectedStopID == stop._id {
+            content.image =  UIImage(systemName: "star")
+        }
         contentConfiguration = content
     }
 }

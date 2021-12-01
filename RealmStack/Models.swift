@@ -9,6 +9,9 @@ class Route: Object, ObjectKeyIdentifiable {
 
     // Create relationships by pointing an Object field to another Class
     @Persisted var stops: List<Stop>
+
+    // Defaults to invalid id
+    @Persisted @objc dynamic var selectedStopID: String = ""
 }
 
 class Stop: Object {

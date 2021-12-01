@@ -15,6 +15,30 @@ struct RouteInteractor {
 
     private let queue = DispatchQueue(label: "com.route.interactor", qos: .userInitiated)
 
+    func selectStop(id: String) {
+        let routeID = route._id
+
+        queue.async {
+            guard let realm = try? Realm(),
+                  let route = realm.object(ofType: Route.self, forPrimaryKey: routeID),
+                  let stop = realm.object(ofType: Stop.self, forPrimaryKey: id) else {
+                      return
+                  }
+
+            do {
+                try realm.write {
+                    route.selectedStopID = stop._id
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+
+        }
+    }
+    func selectStop(_ stop: Stop) {
+        selectStop(id: stop._id)
+    }
+
     func addStop() {
 
         // TODO: - Potential for deduplicate checking/updates. Insert vs append.

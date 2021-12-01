@@ -5,12 +5,12 @@ struct StopCellView: View {
     struct ViewModel {
         let index: Int
         let stop: Stop
+        let route: Route
     }
     let viewModel: ViewModel
 
     var body: some View {
         HStack {
-
             Text("\(viewModel.index).")
                 .frame(width: 24)
 
@@ -20,7 +20,12 @@ struct StopCellView: View {
                 Text(viewModel.stop.city.prefix(10))
                     .foregroundColor(.secondary)
             }
-        }
 
+            Spacer()
+
+            if viewModel.route.selectedStopID == viewModel.stop._id {
+                Image(systemName: "star")
+            }
+        }
     }
 }

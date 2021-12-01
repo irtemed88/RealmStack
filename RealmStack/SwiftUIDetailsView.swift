@@ -20,8 +20,11 @@ struct SwiftUIDetailsView: View {
 
         List {
             ForEach(Array(route.stops.enumerated()), id: \.element.self._id) { offset, item in
-                StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item))
-                    .transition(.opacity)
+                Button {
+                    interactor.selectStop(item)
+                } label: {
+                    StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item, route: route))
+                }
             }
             .onMove(perform: interactor.moveStops)
             .onDelete(perform: interactor.deleteStops)
