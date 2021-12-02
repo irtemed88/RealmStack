@@ -51,5 +51,9 @@ extension Stop {
         street = primitive.street
         city = primitive.city
     }
+
+    var primitive: StopPrimitive {
+        StopPrimitive(street: street, city: city)
+    }
 }
 

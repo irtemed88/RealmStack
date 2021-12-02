@@ -15,11 +15,20 @@ struct RouteInteractor {
 
     private let queue = DispatchQueue(label: "com.route.interactor", qos: .userInitiated)
 
+    /// Creates Realm instance to make changes while on a background queue
+    private func makeBackgroundRealm(route: Route) throws -> Realm? {
+        guard let realm = route.realm else {
+            return nil
+        }
+        return try Realm(configuration: realm.configuration)
+    }
+
     func selectStop(id: String) {
         let routeID = route._id
 
         queue.async {
-            guard let realm = try? Realm(),
+
+            guard let realm = try? makeBackgroundRealm(route: route),
                   let route = realm.object(ofType: Route.self, forPrimaryKey: routeID),
                   let stop = realm.object(ofType: Stop.self, forPrimaryKey: id) else {
                       return
@@ -41,25 +50,33 @@ struct RouteInteractor {
 
     func addStop() {
 
-        // TODO: - Potential for deduplicate checking/updates. Insert vs append.
+        let routeID = route._id
+        queue.async {
+            do {
+                guard let realm = try makeBackgroundRealm(route: route),
+                      let route = realm.object(ofType: Route.self, forPrimaryKey: routeID) else {
+                          return
+                      }
 
-        do {
-            try Realm().write {
                 // Construct Object
                 let stop = Stop()
                 stop.street = UUID().uuidString
                 stop.city = UUID().uuidString
-                route.stops.append(stop)
+
+                try makeBackgroundRealm(route: route)?.write {
+                    route.stops.append(stop)
+                }
+            } catch {
+                print("Error: \(error)")
             }
-        } catch {
-            print(error)
+
         }
     }
 
     func insert(_ primitives: [StopPrimitive]) {
         let routeID = route._id
         queue.async {
-            guard let realm = try? Realm(),
+            guard let realm = try? makeBackgroundRealm(route: route),
                   let route = realm.object(ofType: Route.self, forPrimaryKey: routeID) else {
                       return
                   }
@@ -70,6 +87,7 @@ struct RouteInteractor {
                     primitives.forEach { primitive in
                         // See if Stop exists with Primitive Equivalent
                         if let stop = route.stops.first(where: { primitive.isEqual(to: $0) }) {
+                            print("Dane - bumping count")
                             stop.count += 1
                         } else {
                             // Else Construct Object/Append new Stop
@@ -95,7 +113,7 @@ struct RouteInteractor {
         let stopID = stop._id
 
         queue.async {
-            guard let realm = try? Realm(),
+            guard let realm = try? makeBackgroundRealm(route: route),
                   let route = realm.object(ofType: Route.self, forPrimaryKey: routeID),
                   let stop = realm.object(ofType: Stop.self, forPrimaryKey: stopID) else {
                       return
@@ -125,7 +143,7 @@ struct RouteInteractor {
         let stopIDsToDelete = indexSet.map { route.stops[$0]._id }
 
         queue.async {
-            guard let realm = try? Realm(),
+            guard let realm = try? makeBackgroundRealm(route: route),
                   let route = realm.object(ofType: Route.self, forPrimaryKey: routeID) else {
                       return
                   }
@@ -156,9 +174,9 @@ struct RouteInteractor {
         let id = route._id
         queue.async {
             do {
-                let realm = try Realm()
-                let route = realm.object(ofType: Route.self, forPrimaryKey: id)
-                try realm.write {
+                let realm = try makeBackgroundRealm(route: route)
+                let route = realm?.object(ofType: Route.self, forPrimaryKey: id)
+                try realm?.write {
                     route?.stops.move(fromOffsets: offsets, toOffset: destination)
                 }
             } catch {
@@ -195,9 +213,9 @@ struct RouteInteractor {
         let routeID = route._id
         queue.async {
             do {
-                let realm = try Realm()
+                let realm = try makeBackgroundRealm(route: route)
 
-                guard let route = realm.object(ofType: Route.self, forPrimaryKey: routeID) else {
+                guard let route = realm?.object(ofType: Route.self, forPrimaryKey: routeID) else {
                     return
                 }
 
@@ -214,7 +232,7 @@ struct RouteInteractor {
                     lookup[identifier]?.first
                 }
 
-                try realm.write {
+                try realm?.write {
                     // Remove
                     route.stops.removeAll()
                     // Then Replace

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2E6A8DB22757E47D0022AAE5 /* RouteInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A8DB12757E47D0022AAE5 /* RouteInteractor.swift */; };
 		2E6A8DB4275830DC0022AAE5 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A8DB3275830DC0022AAE5 /* Array+.swift */; };
+		2EED5496275938D2003164C7 /* RealmStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED5495275938D2003164C7 /* RealmStackTests.swift */; };
+		2EED549D275938E8003164C7 /* RouteInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED549C275938E8003164C7 /* RouteInteractorTests.swift */; };
 		A081BEAC273324AD0002CA26 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081BEAB273324AD0002CA26 /* ContentView.swift */; };
 		A081BEAE273337030002CA26 /* UIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081BEAD273337030002CA26 /* UIKitViewController.swift */; };
 		A081BEB02733A3750002CA26 /* UIKitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081BEAF2733A3740002CA26 /* UIKitDetailsViewController.swift */; };
@@ -23,9 +25,22 @@
 		A087A79227318900000BB32A /* SwiftUIDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A087A79127318900000BB32A /* SwiftUIDetailsView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2EED5497275938D2003164C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A087A76727318413000BB32A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A087A76E27318413000BB32A;
+			remoteInfo = RealmStack;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2E6A8DB12757E47D0022AAE5 /* RouteInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteInteractor.swift; sourceTree = "<group>"; };
 		2E6A8DB3275830DC0022AAE5 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		2EED5493275938D2003164C7 /* RealmStackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealmStackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EED5495275938D2003164C7 /* RealmStackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStackTests.swift; sourceTree = "<group>"; };
+		2EED549C275938E8003164C7 /* RouteInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteInteractorTests.swift; sourceTree = "<group>"; };
 		A081BEAB273324AD0002CA26 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A081BEAD273337030002CA26 /* UIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewController.swift; sourceTree = "<group>"; };
 		A081BEAF2733A3740002CA26 /* UIKitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitDetailsViewController.swift; sourceTree = "<group>"; };
@@ -40,6 +55,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2EED5490275938D2003164C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A087A76C27318413000BB32A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -52,10 +74,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2EED5494275938D2003164C7 /* RealmStackTests */ = {
+			isa = PBXGroup;
+			children = (
+				2EED5495275938D2003164C7 /* RealmStackTests.swift */,
+				2EED549C275938E8003164C7 /* RouteInteractorTests.swift */,
+			);
+			path = RealmStackTests;
+			sourceTree = "<group>";
+		};
 		A087A76627318413000BB32A = {
 			isa = PBXGroup;
 			children = (
 				A087A77127318413000BB32A /* RealmStack */,
+				2EED5494275938D2003164C7 /* RealmStackTests */,
 				A087A77027318413000BB32A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				A087A76F27318413000BB32A /* RealmStack.app */,
+				2EED5493275938D2003164C7 /* RealmStackTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,6 +131,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2EED5492275938D2003164C7 /* RealmStackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EED549B275938D2003164C7 /* Build configuration list for PBXNativeTarget "RealmStackTests" */;
+			buildPhases = (
+				2EED548F275938D2003164C7 /* Sources */,
+				2EED5490275938D2003164C7 /* Frameworks */,
+				2EED5491275938D2003164C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2EED5498275938D2003164C7 /* PBXTargetDependency */,
+			);
+			name = RealmStackTests;
+			productName = RealmStackTests;
+			productReference = 2EED5493275938D2003164C7 /* RealmStackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A087A76E27318413000BB32A /* RealmStack */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A087A77D27318415000BB32A /* Build configuration list for PBXNativeTarget "RealmStack" */;
@@ -126,9 +177,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1300;
+				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					2EED5492275938D2003164C7 = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = A087A76E27318413000BB32A;
+					};
 					A087A76E27318413000BB32A = {
 						CreatedOnToolsVersion = 13.0;
 					};
@@ -151,11 +206,19 @@
 			projectRoot = "";
 			targets = (
 				A087A76E27318413000BB32A /* RealmStack */,
+				2EED5492275938D2003164C7 /* RealmStackTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2EED5491275938D2003164C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A087A76D27318413000BB32A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,6 +231,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2EED548F275938D2003164C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EED549D275938E8003164C7 /* RouteInteractorTests.swift in Sources */,
+				2EED5496275938D2003164C7 /* RealmStackTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A087A76B27318413000BB32A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -187,7 +259,61 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2EED5498275938D2003164C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A087A76E27318413000BB32A /* RealmStack */;
+			targetProxy = 2EED5497275938D2003164C7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		2EED5499275938D2003164C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 28ZY5R494K;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dane.RealmStackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RealmStack.app/RealmStack";
+			};
+			name = Debug;
+		};
+		2EED549A275938D2003164C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 28ZY5R494K;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dane.RealmStackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RealmStack.app/RealmStack";
+			};
+			name = Release;
+		};
 		A087A77B27318415000BB32A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -367,6 +493,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2EED549B275938D2003164C7 /* Build configuration list for PBXNativeTarget "RealmStackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EED5499275938D2003164C7 /* Debug */,
+				2EED549A275938D2003164C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A087A76A27318413000BB32A /* Build configuration list for PBXProject "RealmStack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
