@@ -23,6 +23,10 @@ struct StopCellView: View {
 
             Spacer()
 
+            if viewModel.stop.count > 1 {
+                Text("\(viewModel.stop.count) Packages")
+            }
+            
             if viewModel.route.selectedStopID == viewModel.stop._id {
                 Image(systemName: "star")
             }

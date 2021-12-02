@@ -61,7 +61,9 @@ class UIKitDetailsViewController: UIViewController {
 
         navigationItem.setRightBarButtonItems([
             UIBarButtonItem(image: UIImage(systemName: "shuffle"), style: .plain, target: self, action: #selector(shuffleStops)),
-            UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addStop))
+            UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addStop)),
+            UIBarButtonItem(image: UIImage(systemName: "text.insert"), style: .plain, target: self, action: #selector(bumpFirstStopCount))
+
         ], animated: false)
 
         view.addSubview(collectionView)
@@ -115,6 +117,16 @@ class UIKitDetailsViewController: UIViewController {
         interactor.addStop()
     }
 
+    @objc private func bumpFirstStopCount() {
+
+        // Get first stop, generate primitive, attempt to insert as new item to show deduplication\
+        guard let first = route.stops.first.flatMap(StopPrimitive.init) else {
+            return
+        }
+        interactor.insert(first)
+
+    }
+
     @objc private func deleteStop(_ stop: Stop) {
         interactor.deleteStop(stop)
     }
@@ -152,8 +164,8 @@ class StopCollectionCell: UICollectionViewListCell {
 
     func update(withStop stop: Stop, index: Int, selectedStopID: String) {
         var content = defaultContentConfiguration()
-        let text = "\(index).   \(stop.street)\n\(stop.city)"
-        content.text = text
+        content.text = "\(index).   \(stop.street)\n\(stop.city)"
+        content.secondaryText = "\(stop.count) Package(s)"
         content.textProperties.numberOfLines = 1
 
         if selectedStopID == stop._id {

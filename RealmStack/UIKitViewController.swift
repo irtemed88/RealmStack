@@ -35,6 +35,7 @@ class UIKitViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         navigationItem.setRightBarButtonItems([
             UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addRoute))
+
         ], animated: false)
 
         view.addSubview(tableView)

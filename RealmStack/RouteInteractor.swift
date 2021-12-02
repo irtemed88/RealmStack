@@ -54,7 +54,40 @@ struct RouteInteractor {
         } catch {
             print(error)
         }
+    }
 
+    func insert(_ primitives: [StopPrimitive]) {
+        let routeID = route._id
+        queue.async {
+            guard let realm = try? Realm(),
+                  let route = realm.object(ofType: Route.self, forPrimaryKey: routeID) else {
+                      return
+                  }
+
+
+            do {
+                try realm.write({
+                    primitives.forEach { primitive in
+                        // See if Stop exists with Primitive Equivalent
+                        if let stop = route.stops.first(where: { primitive.isEqual(to: $0) }) {
+                            stop.count += 1
+                        } else {
+                            // Else Construct Object/Append new Stop
+                            let stop = Stop()
+                            stop.apply(primitive)
+                            route.stops.append(stop)
+                        }
+                    }
+                })
+            } catch {
+                print("Error: \(error)")
+            }
+
+        }
+    }
+
+    func insert(_ primitive: StopPrimitive) {
+        insert([primitive])
     }
 
     func deleteStop(_ stop: Stop) {

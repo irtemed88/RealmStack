@@ -30,9 +30,14 @@ struct SwiftUIDetailsView: View {
             .onDelete(perform: interactor.deleteStops)
         }
         .toolbar {
-            ToolbarItem {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: addItem) {
                     Label("Add Item", systemImage: "plus")
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: bumpFirstItemCount) {
+                    Label("Bump First Count", systemImage: "text.insert")
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -45,12 +50,17 @@ struct SwiftUIDetailsView: View {
 
     private func addItem() {
         withAnimation {
+            interactor.addStop()
+        }
+    }
 
-            // Construct Object
-            let newItem = Stop()
-            newItem.street = UUID().uuidString
-            newItem.city = UUID().uuidString
-            $route.stops.append(newItem)
+    private func bumpFirstItemCount() {
+        withAnimation {
+            // Get first stop, generate primitive, attempt to insert as new item to show deduplication\
+            guard let first = route.stops.first.flatMap(StopPrimitive.init) else {
+                return
+            }
+            interactor.insert(first)
         }
     }
 

@@ -23,6 +23,33 @@ class Stop: Object {
     @Persisted var city: String
 
     @Persisted var street: String
+
+    @Persisted var count: Int = 1
 }
 
+struct StopPrimitive {
+    let street: String
+    let city: String
+
+    func isEqual(to stop: Stop) -> Bool {
+
+        // Compare whatever makes a primitive the same as Stop
+        return street == stop.street &&
+            city == stop.city
+    }
+
+}
+
+extension StopPrimitive {
+    init(_ stop: Stop) {
+        self.init(street: stop.street, city: stop.city)
+    }
+}
+
+extension Stop {
+    func apply(_ primitive: StopPrimitive) {
+        street = primitive.street
+        city = primitive.city
+    }
+}
 
