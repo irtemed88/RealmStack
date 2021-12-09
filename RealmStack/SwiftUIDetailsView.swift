@@ -1,24 +1,39 @@
 import SwiftUI
 import RealmSwift
 
-
 struct SwiftUIDetailsView: View {
+    @ObservedRealmObject var route: Route
+    @ObservedResults(
+        Stop.self,
+        keyPaths: ["isSelected"] // Providing a keyPath will cause updates to fire _only_ when that prop chagnes
+    ) var selectedStops
 
-    @ObservedRealmObject
-    var route: Route
+    init(route: Route) {
+        self.route = route
+
+        // Set the filter in `init` since it relies on `route` which can't be referenced until init.
+        // Subquery allows us to filter the inverse relationship and only return Stops that are a part of this route.
+        // For more info on Subqueries, see: https://academy.realm.io/posts/nspredicate-cheatsheet/.
+        _selectedStops.filter = NSPredicate(format: "isSelected == true AND SUBQUERY(routes, $route, $route._id == %@).@count > 0", route._id)
+    }
 
     var body: some View {
-
-        List {
-            ForEach(Array(route.stops.enumerated()), id: \.element.self) { offset, item in
-                Button {
-                    selectItem(item)
-                } label: {
-                    StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item))
+        // Demonstrates this is working by returning all selected stops with a selected flag. Without the subquery above,
+        // this will show selected stops for all routes.
+        let selectedStopIds = selectedStops.map { $0.street.prefix(10) }.joined(separator: ", ")
+        return VStack {
+            Text("Selected Stops: \(selectedStopIds)")
+            List {
+                ForEach(Array(route.stops.enumerated()), id: \.element.self) { offset, item in
+                    Button {
+                        selectItem(item)
+                    } label: {
+                        StopCellView(viewModel: StopCellView.ViewModel(index: offset, stop: item))
+                    }
                 }
+                .onMove(perform: $route.stops.move)
+                .onDelete(perform: $route.stops.remove)
             }
-            .onMove(perform: $route.stops.move)
-            .onDelete(perform: $route.stops.remove)
         }
         .toolbar {
             ToolbarItem {
