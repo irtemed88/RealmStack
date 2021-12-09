@@ -11,7 +11,8 @@ class Route: Object, ObjectKeyIdentifiable {
     @Persisted var stops: List<Stop>
 }
 
-class Stop: Object {
+class Stop: Object, Identifiable {
+    @Persisted var id: String = UUID().uuidString
 
     @Persisted var city: String
 
@@ -19,4 +20,11 @@ class Stop: Object {
 
     /// Is this item in focus
     @Persisted var isSelected: Bool
+
+    @Persisted(originProperty: "stops") private var routes: LinkingObjects<Route>
+
+    /// Property is ok to add here since we know a stop will only ever have one route. This getter cannot be queried via Realm.
+    var route: Route {
+        routes.first!
+    }
 }
