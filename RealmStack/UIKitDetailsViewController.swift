@@ -3,7 +3,7 @@ import RealmSwift
 import UIKit
 
 
-class UIKitDetailsViewController: UIViewController {
+class UIKitDetailsViewController: UIViewController, UICollectionViewDelegate {
     let realm = try! Realm()
     let route: Route
     var stopsObserver: Any?
@@ -26,6 +26,7 @@ class UIKitDetailsViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(StopCollectionCell.self, forCellWithReuseIdentifier: "cell")
+        cv.delegate = self
         return cv
     }()
 
@@ -113,6 +114,26 @@ class UIKitDetailsViewController: UIViewController {
             route.stops.shuffle()
         })
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        // Unselect All Stops
+        try! realm.write({
+
+            // Clear Currently Selected
+            route.stops.forEach { stop in
+                if stop.isSelected {
+                    stop.isSelected = false
+                }
+            }
+
+            // Apply New Selection
+            self.route.stops[indexPath.row].isSelected = true
+        })
+
+        // Unighlight the row, retaining special cell behavior
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }
 
 
@@ -136,6 +157,7 @@ class StopCollectionCell: UICollectionViewListCell {
     func update(withStop stop: Stop) {
         var content = defaultContentConfiguration()
         let text = "\(stop.street)\n\(stop.city)"
+        content.image = stop.isSelected ? UIImage(systemName: "star") : nil
         content.text = text
         content.textProperties.numberOfLines = 1
         contentConfiguration = content
